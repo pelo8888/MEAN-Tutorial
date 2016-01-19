@@ -29,6 +29,24 @@ app.config(['$stateProvider', '$urlRouterProvider',
       }
     })
 
+    .state('playing', {
+      url: '/playing',
+      templateUrl: '/playing.html',
+      controller: 'gameCtrl'
+    })
+
+    .state('winner', {
+      url: '/winner',
+      templateUrl: '/winner.html',
+      controller: 'MainCtrl',
+      resolve: {
+        postPromise: ['posts',
+          function(posts) {
+            return posts.getAll();
+          }
+        ]
+      }
+    })
 
     .state('posts', {
       url: '/posts/:id',
