@@ -1,7 +1,7 @@
 var app = angular.module('gameOfDrones', ['ui.router']);
 
 app.config(['$stateProvider', '$urlRouterProvider',
-  function($stateProvider, $urlRouterProvider) {
+  function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider
       .state('start', {
@@ -10,7 +10,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
         controller: 'MainCtrl',
         resolve: {
           post: ['$stateParams', 'players',
-            function($stateParams, players) {
+            function ($stateParams, players) {
               return players.getAll();
             }
           ]
@@ -24,7 +24,14 @@ app.config(['$stateProvider', '$urlRouterProvider',
       .state('winner', {
         url: '/winner',
         templateUrl: '/winner.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        resolve: {
+          post: ['$stateParams', 'players',
+            function ($stateParams, players) {
+              return players.getAll();
+            }
+          ]
+        }
       })
       .state('posts', {
         url: '/posts/:id',
@@ -32,7 +39,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
         controller: 'PostsCtrl',
         resolve: {
           post: ['$stateParams', 'posts',
-            function($stateParams, posts) {
+            function ($stateParams, posts) {
               return posts.get($stateParams.id);
             }
           ]
@@ -43,7 +50,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
         templateUrl: '/login.html',
         controller: 'AuthCtrl',
         onEnter: ['$state', 'auth',
-          function($state, auth) {
+          function ($state, auth) {
             if (auth.isLoggedIn()) {
               $state.go('start');
             }
@@ -56,7 +63,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
         templateUrl: '/register.html',
         controller: 'AuthCtrl',
         onEnter: ['$state', 'auth',
-          function($state, auth) {
+          function ($state, auth) {
             if (auth.isLoggedIn()) {
               $state.go('start');
             }

@@ -1,5 +1,6 @@
-app.controller('gameCtrl', ['$scope', 'game', 'players', 'auth',
-  function($scope, game, players, auth) {
+app.controller('gameCtrl', ['$scope', 'game', 'players', 'auth', '$state',
+
+  function ($scope, game, players, auth, $state) {
     $scope.isLoggedIn = auth.isLoggedIn;
     $scope.Game = game.Game;
     $scope.players = players;
@@ -21,7 +22,7 @@ app.controller('gameCtrl', ['$scope', 'game', 'players', 'auth',
       kills: 'Paper'
     }];
 
-    $scope.Attack = function() {
+    $scope.Attack = function () {
       if ($scope.selected) {
         if ($scope.lastMove.player1 === undefined) {
           $scope.lastMove.player1 = $scope.selected;
@@ -36,7 +37,7 @@ app.controller('gameCtrl', ['$scope', 'game', 'players', 'auth',
       };
     };
 
-    $scope.finishMove = function() {
+    $scope.finishMove = function () {
       var move1 = $scope.lastMove.player1,
         move2 = $scope.lastMove.player2;
 
@@ -54,19 +55,21 @@ app.controller('gameCtrl', ['$scope', 'game', 'players', 'auth',
       $scope.checkScore();
     };
 
-    $scope.checkScore = function() {
-      $scope.score = _.countBy($scope.Game.moves, function(move) {
+    $scope.checkScore = function () {
+      $scope.score = _.countBy($scope.Game.moves, function (move) {
         return move.winner ? move.winner.username : 'draw';
       });
 
       if ($scope.score[$scope.Game.Player1.username] >= 3) {
-        console.debug($scope.Game.Player1);
-        console.debug('wins');
-        $scope.players.addVictory($scope.Game.Player1)
+        $scope.players.addVictory($scope.Game.Player1);
+        $scope.Game.winner = $scope.Game.Player1;
       } else if ($scope.score[$scope.Game.Player2.username] >= 3) {
-        console.debug($scope.Game.Player2);
-        console.debug('wins');
-        $scope.players.addVictory($scope.Game.Player1)
+        $scope.players.addVictory($scope.Game.Player1);
+        $scope.Game.winner = $scope.Game.Player2;
+      }
+
+      if ($scope.Game.winner) {
+        $state.go('winner');
       }
     };
 
