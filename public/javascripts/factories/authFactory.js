@@ -1,16 +1,16 @@
 app.factory('auth', ['$http', '$window',
-  function($http, $window) {
+  function ($http, $window) {
     var auth = {};
 
-    auth.saveToken = function(token) {
+    auth.saveToken = function (token) {
       $window.localStorage['game-of-drones-token'] = token;
     };
 
-    auth.getToken = function() {
+    auth.getToken = function () {
       return $window.localStorage['game-of-drones-token'];
     }
 
-    auth.isLoggedIn = function() {
+    auth.isLoggedIn = function () {
       var token = auth.getToken();
 
       if (token) {
@@ -22,7 +22,7 @@ app.factory('auth', ['$http', '$window',
       }
     };
 
-    auth.currentUser = function() {
+    auth.currentUser = function () {
       if (auth.isLoggedIn()) {
         var token = auth.getToken();
         var payload = JSON.parse($window.atob(token.split('.')[1]));
@@ -31,19 +31,19 @@ app.factory('auth', ['$http', '$window',
       }
     };
 
-    auth.register = function(user) {
-      return $http.post('/register', user).success(function(data) {
+    auth.register = function (user) {
+      return $http.post('/register', user).success(function (data) {
         auth.saveToken(data.token);
       });
     };
 
-    auth.logIn = function(user) {
-      return $http.post('/login', user).success(function(data) {
+    auth.logIn = function (user) {
+      return $http.post('/login', user).success(function (data) {
         auth.saveToken(data.token);
       });
     };
 
-    auth.logOut = function() {
+    auth.logOut = function () {
       $window.localStorage.removeItem('game-of-drones-token');
     };
 

@@ -1,7 +1,7 @@
 var app = angular.module('gameOfDrones', ['ui.router']);
 
 app.config(['$stateProvider', '$urlRouterProvider',
-  function($stateProvider, $urlRouterProvider) {
+  function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider.state('home', {
       url: '/home',
@@ -9,7 +9,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
       controller: 'MainCtrl',
       resolve: {
         postPromise: ['posts',
-          function(posts) {
+          function (posts) {
             return posts.getAll();
           }
         ]
@@ -21,9 +21,9 @@ app.config(['$stateProvider', '$urlRouterProvider',
       templateUrl: '/start.html',
       controller: 'MainCtrl',
       resolve: {
-        postPromise: ['posts',
-          function(posts) {
-            return posts.getAll();
+        post: ['$stateParams', 'players',
+          function ($stateParams, players) {
+            return players.getAll();
           }
         ]
       }
@@ -38,14 +38,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
     .state('winner', {
       url: '/winner',
       templateUrl: '/winner.html',
-      controller: 'MainCtrl',
-      resolve: {
-        postPromise: ['posts',
-          function(posts) {
-            return posts.getAll();
-          }
-        ]
-      }
+      controller: 'MainCtrl'
     })
 
     .state('posts', {
@@ -54,7 +47,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
       controller: 'PostsCtrl',
       resolve: {
         post: ['$stateParams', 'posts',
-          function($stateParams, posts) {
+          function ($stateParams, posts) {
             return posts.get($stateParams.id);
           }
         ]
@@ -66,7 +59,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
       templateUrl: '/login.html',
       controller: 'AuthCtrl',
       onEnter: ['$state', 'auth',
-        function($state, auth) {
+        function ($state, auth) {
           if (auth.isLoggedIn()) {
             $state.go('home');
           }
@@ -80,7 +73,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
       templateUrl: '/register.html',
       controller: 'AuthCtrl',
       onEnter: ['$state', 'auth',
-        function($state, auth) {
+        function ($state, auth) {
           if (auth.isLoggedIn()) {
             $state.go('home');
           }
