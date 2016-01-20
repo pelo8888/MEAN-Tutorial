@@ -48,6 +48,7 @@ app.controller('MainCtrl', ['$scope', 'players', 'game', 'auth', '$state',
       //clear the values
       $scope.username1 = '';
       $scope.username2 = '';
+      //$scope.Game.saveStatus();
       $state.go('playing');
     };
 

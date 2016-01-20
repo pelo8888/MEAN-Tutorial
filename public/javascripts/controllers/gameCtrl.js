@@ -1,8 +1,10 @@
-app.controller('gameCtrl', ['$scope', 'game', 'auth',
-  function($scope, game, auth) {
+app.controller('gameCtrl', ['$scope', 'game', 'players', 'auth',
+  function($scope, game, players, auth) {
     $scope.isLoggedIn = auth.isLoggedIn;
     $scope.Game = game.Game;
-    $scope.Game.moves = [];
+    $scope.players = players;
+    // $scope.Game.moves = [];
+    $scope.Game.score = {};
     $scope.lastMove = {
       player1: undefined,
       player2: undefined,
@@ -49,6 +51,24 @@ app.controller('gameCtrl', ['$scope', 'game', 'auth',
         player2: undefined,
         winner: undefined
       };
+      $scope.checkScore();
     };
+
+    $scope.checkScore = function() {
+      $scope.score = _.countBy($scope.Game.moves, function(move) {
+        return move.winner ? move.winner.username : 'draw';
+      });
+
+      if ($scope.score[$scope.Game.Player1.username] >= 3) {
+        console.debug($scope.Game.Player1);
+        console.debug('wins');
+        $scope.players.addVictory($scope.Game.Player1)
+      } else if ($scope.score[$scope.Game.Player2.username] >= 3) {
+        console.debug($scope.Game.Player2);
+        console.debug('wins');
+        $scope.players.addVictory($scope.Game.Player1)
+      }
+    };
+
   }
 ]);

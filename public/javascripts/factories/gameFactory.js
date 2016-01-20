@@ -11,11 +11,19 @@ app.factory('game', [
           username: 'Player2',
           wins: 2
         },
-        moves: []
+        moves: [],
+        winner: undefined
       }
+
+    };
+
+    o.setWinner = function(winner) {
+      o.Game.winner = winner;
+      return o;
     };
 
     o.saveStatus = function(user1, user2) {
+      debugger;
       $window.localStorage['game-of-drones-player1'] = user1;
       $window.localStorage['game-of-drones-player2'] = user2;
       $window.localStorage['game-of-drones-moves'] = user2;
