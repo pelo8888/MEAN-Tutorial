@@ -1,9 +1,9 @@
-app.controller('MainCtrl', ['$scope', 'posts', 'players', 'auth',
-  function ($scope, posts, players, auth) {
+app.controller('MainCtrl', ['$scope', 'posts', 'players', 'game', 'auth', '$state',
+  function ($scope, posts, players, game, auth, $state) {
     $scope.posts = posts.posts;
     $scope.players = players.players;
     $scope.isLoggedIn = auth.isLoggedIn;
-
+    $scope.Game = game.Game;
 
     $scope.start = function () {
       var usr1 = $scope.username1.toLowerCase(),
@@ -25,7 +25,11 @@ app.controller('MainCtrl', ['$scope', 'posts', 'players', 'auth',
         if (data === 'null') {
           players.create({
             username: usr1
+          }).then(function (res) {
+            $scope.Game.Player1 = res.data;
           });
+        } else {
+          $scope.Game.Player1 = data;
         }
       });
 
@@ -33,13 +37,19 @@ app.controller('MainCtrl', ['$scope', 'posts', 'players', 'auth',
         if (data === 'null') {
           players.create({
             username: usr2
-          });
+          })
+            .then(function (res) {
+              $scope.Game.Player2 = res.data;
+            });
+        } else {
+          $scope.Game.Player2 = data;
         }
       });
 
       //clear the values
       $scope.username1 = '';
       $scope.username2 = '';
+      $state.go('playing');
     };
 
     $scope.upvote = function (post) {

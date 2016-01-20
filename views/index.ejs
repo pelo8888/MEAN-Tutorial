@@ -10,6 +10,7 @@
   <script src="javascripts/factories/authFactory.js"></script>
   <script src="javascripts/factories/postsFactory.js"></script>
   <script src="javascripts/factories/playersFactory.js"></script>
+  <script src="javascripts/factories/gameFactory.js"></script>
   <script src="javascripts/controllers/mainCtrl.js"></script>
   <script src="javascripts/controllers/postsCtrl.js"></script>
   <script src="javascripts/controllers/authCtrl.js"></script>
@@ -67,6 +68,9 @@
         <button type="submit" class="btn btn-primary btn-block">Start</button>
       </div>
     </form>
+
+    <p>{{Game.Player1.username}}</p>
+    <p>{{Game.Player2.username}}</p>
   </script>
 
   <script type="text/ng-template" id="/winner.html">
@@ -81,8 +85,24 @@
       <h1>The game of Drones</h1>
     </div>
 
-    <div class="container">
-      <div class="col-md-6">
+    <div class="row">
+      <h3>Round 1</h3>
+      <h3> {{Game.Player1.username}}</h3>
+        <form ng-submit="atack()" class="form-horizontal"
+          style="margin-top:30px;">
+
+          <div class="form-group">
+            <label for="movementSelect" class="col-sm-4 control-label">Select move</label>
+            <div class="col-sm-8">
+              <select ng-options="item as item.name for item in options" ng-model="selected"></select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <button type="submit" class="btn btn-primary">Attack</button>
+          </div>
+        </form>
+    </div>
+    <div class="row">
         <h2>Score</h2>
         <div ng-repeat="move in moves">
           <span style="font-size:20px;margin-left:10px">
@@ -90,23 +110,7 @@
             {{$index + 1}} - {{ move.player1 }} vs {{ move.player2 }}
             </span>
             <span ng-show="move.winner">
-              Gano: {{move.winner.username}}
-            </span>
-            <span ng-hide="move.winner">
-              Empate
-            </span>
-          </span>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <h2>Score</h2>
-        <div ng-repeat="move in moves">
-          <span style="font-size:20px;margin-left:10px">
-            <span ng-hide="post.link">
-            {{$index + 1}} - {{ move.player1 }} vs {{ move.player2 }}
-            </span>
-            <span ng-show="move.winner">
-              Gano: {{move.winner.username}}
+              Gano: {{Game.winner.username}}
             </span>
             <span ng-hide="move.winner">
               Empate
@@ -154,7 +158,6 @@
 	    <button type="submit" class="btn btn-primary">Register</button>
 	  </form>
 	</script>
-
 
 	<script type="text/ng-template" id="/login.html">
 	  <div class="page-header">
