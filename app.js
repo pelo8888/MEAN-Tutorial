@@ -11,17 +11,18 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 
 // connect MongoDB
-mongoose.connect('mongodb://localhost/news', function(err,db){
-    if (!err){
-        console.log('Connected to /news!');
-    } else{
-        console.dir(err); //failed to connect
-    }
+mongoose.connect('mongodb://localhost/dronesdb', function (err, db) {
+  if (!err) {
+    console.log('Connected to /dronesdb!');
+  } else {
+    console.dir(err); //failed to connect
+  }
 });
 
 require('./models/Posts');
 require('./models/Comments');
 require('./models/Users');
+require('./models/Players');
 require('./config/passport');
 
 var routes = require('./routes/index');
@@ -35,7 +36,9 @@ app.set('view engine', 'ejs');
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
@@ -44,10 +47,10 @@ app.use('/', routes);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+app.use(function (req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 // error handlers
@@ -55,26 +58,24 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
+  app.use(function (err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
     });
+  });
 }
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
+app.use(function (err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
 });
 
 
 module.exports = app;
-
-
