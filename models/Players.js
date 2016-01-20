@@ -14,7 +14,8 @@ var PlayerSchema = new mongoose.Schema({
   }
 });
 
-PlayerSchema.methods.incrementwins = function (cb) {
+PlayerSchema.methods.incrementwins = function(cb) {
+  console.log('Entre en incrementwins')
   this.wins += 1;
   this.save(cb);
 };

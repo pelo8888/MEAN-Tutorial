@@ -1,0 +1,10 @@
+[{
+  "name": "Paper",
+  "kills": "Rock"
+}, {
+  "name": "Rock",
+  "kills": "Scissors"
+}, {
+  "name": "Scissors",
+  "kills": "Paper"
+}]
