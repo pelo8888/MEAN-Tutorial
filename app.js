@@ -19,8 +19,6 @@ mongoose.connect('mongodb://localhost/dronesdb', function(err, db) {
   }
 });
 
-require('./models/Posts');
-require('./models/Comments');
 require('./models/Users');
 require('./models/Players');
 require('./config/passport');
