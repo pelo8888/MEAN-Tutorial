@@ -6,3 +6,15 @@ body {
 a {
   color: #00B7FF;
 }
+
+.highscores-container {
+  border: 16px solid #B9ACAC;
+  border-radius: 8px;
+  margin: 15px 0;
+}
+
+.highscores-element {
+  border: 2px solid #DCDCDC;
+  border-radius: 6px;
+  margin: 10px;
+}
