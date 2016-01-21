@@ -76,22 +76,27 @@
       <h1>The game of Drones</h1>
     </div>
 
-    <div class="page-header">
-      <h1>We have a WINNER!!</h1>
-      <h2>{{Game.winner.username}} is the new EMPEROR!</h2>
+    <div ng-hide="isLoggedIn()">
+      <h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can play The game of drones.</h3>
     </div>
-    <div>
+
+    <div class="page-header" ng-show="isLoggedIn()">
+      <h1>We have a WINNER!!</h1>
+      <h2>{{Game.winner.username | uppercase}} is the new EMPEROR!</h2>
+    </div>
+
+    <div ng-show="isLoggedIn()">
       <button ng-click="playAgain();" class="btn btn-primary">Play again!</button>
     </div>
 
-    <div class="row">
+    <div class="row" ng-show="isLoggedIn()">
       <div class="col-md-6 highscores-container">
         <h2>Highscores</h2>
         <div ng-repeat="score in players | orderBy:'-wins' | limitTo:10"
         class="highscores-element">
           <span style="font-size:20px;margin-left:10px">
             <span>
-              {{$index + 1}} - {{ score.username }} - {{ score.wins }}
+              {{$index + 1}}° - {{ score.username || lowercase }} ({{ score.wins }})
             </span>
           </span>
         </div>
@@ -111,8 +116,8 @@
     <div class="row" ng-show="isLoggedIn()">
       <div class="col-md-6" style="border:1px solid #eee;border-radius:8px;">
         <h3>Round {{ Game.moves.length + 1}}</h3>
-        <h3 ng-hide="lastMove.player1"> {{Game.Player1.username}}</h3>
-        <h3 ng-show="lastMove.player1"> {{Game.Player2.username}}</h3>
+        <h3 class="move-player1" ng-hide="lastMove.player1"> {{Game.Player1.username | uppercase}}</h3>
+        <h3 class="move-player2" ng-show="lastMove.player1"> {{Game.Player2.username | uppercase}}</h3>
         <form ng-submit="Attack()" style="margin-top:30px;">
           <div class="form-group">
             <label for="movementSelect">Select move</label>
@@ -125,7 +130,7 @@
     </div>
     <div class="col-md-6" style="border:1px solid #eee;border-radius:8px;">
       <h2>Score</h2>
-      <div ng-repeat="move in Game.moves">
+      <div ng-repeat="move in Game.moves track by $index">
         <span style="font-size:20px;margin-left:10px">
           <span ng-hide="post.link">
             {{$index + 1}} - {{ move.player1.name }} vs {{ move.player2.name }}  -

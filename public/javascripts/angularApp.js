@@ -23,7 +23,6 @@ app.config(['$stateProvider', '$urlRouterProvider',
         resolve: {
           post: ['$stateParams', 'game',
             function($stateParams, game) {
-              debugger;
               return game.getOptions();
             }
           ]

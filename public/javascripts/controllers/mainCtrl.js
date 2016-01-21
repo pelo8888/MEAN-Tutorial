@@ -23,9 +23,10 @@ app.controller('MainCtrl', ['$scope', 'players', 'game', 'auth', '$state',
         usr2 = $scope.username2.toLowerCase(),
         newUser = false,
         promise1 = undefined,
-        promise2 = undefined,
-        promise3 = undefined,
-        promise4 = undefined;
+        promise2 = undefined;
+
+      $scope.Game.initialize();
+
 
       if (usr1 === '' || usr2 === '') {
         alert('Players names can not be empty.');
@@ -74,8 +75,6 @@ app.controller('MainCtrl', ['$scope', 'players', 'game', 'auth', '$state',
       Promise.all([promise1, promise2]).then(function() {
         $scope.username1 = '';
         $scope.username2 = '';
-        $scope.Game.moves = [];
-        $scope.goPlaying();
       });
 
     };

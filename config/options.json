@@ -10,4 +10,7 @@
 }, {
   "name": "Bazooka",
   "kills": "Rock"
+}, {
+  "name": "RPG",
+  "kills": "Bazooka"
 }]

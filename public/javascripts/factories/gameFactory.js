@@ -9,6 +9,14 @@ app.factory('game', ['$http', '$window', '$state',
       winner: undefined
     };
 
+    o.initialize = function() {
+      this.Player1 = undefined;
+      this.Player2 = undefined;
+      this.moves = [];
+      this.options = [];
+      this.winner = undefined;
+    };
+
     //Get all options from config/options.json file
     o.getOptions = function() {
       return $http.get('/options').success(function(data) {

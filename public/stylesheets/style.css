@@ -18,3 +18,19 @@ a {
   border-radius: 6px;
   margin: 10px;
 }
+
+.move-player1 {
+    color: #3F5F79;
+    background-color: #CBFFBE;
+    text-align: center;
+    margin: 0 30% 0 0;
+    padding: 4%;
+}
+
+.move-player2 {
+    color: #3F5F79;
+    background-color: #E0E0FF;
+    text-align: center;
+    margin: 0 0 0 30%;
+    padding: 4%;
+}
