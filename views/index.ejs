@@ -9,11 +9,9 @@
     <script src="javascripts/libs/underscore-min.js"></script>
     <script src="javascripts/angularApp.js"></script>
     <script src="javascripts/factories/authFactory.js"></script>
-    <script src="javascripts/factories/postsFactory.js"></script>
     <script src="javascripts/factories/playersFactory.js"></script>
     <script src="javascripts/factories/gameFactory.js"></script>
     <script src="javascripts/controllers/mainCtrl.js"></script>
-    <script src="javascripts/controllers/postsCtrl.js"></script>
     <script src="javascripts/controllers/authCtrl.js"></script>
     <script src="javascripts/controllers/navCtrl.js"></script>
     <script src="javascripts/controllers/gameCtrl.js"></script>
@@ -118,7 +116,7 @@
         <form ng-submit="Attack()" style="margin-top:30px;">
           <div class="form-group">
             <label for="movementSelect">Select move</label>
-          <select class="form-control" ng-options="item as item.name for item in options" ng-model="selected"></select>
+          <select class="form-control" ng-options="item as item.name for item in Game.options" ng-model="selected"></select>
         </div>
         <div>
           <button type="submit" class="btn btn-primary">Attack</button>
@@ -193,7 +191,7 @@
       <input type="text"
       class="form-control"
       placeholder="Username"
-      ng-model="user.username"></input>
+      ng-model="user.username" lowercase></input>
     </div>
     <div class="form-group">
       <input type="password"

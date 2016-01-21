@@ -3,9 +3,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var jwt = require('express-jwt');
-
-var Post = mongoose.model('Post');
-var Comment = mongoose.model('Comment');
+var fs = require('fs');
 var User = mongoose.model('User');
 var Player = mongoose.model('Player');
 
@@ -14,49 +12,33 @@ var auth = jwt({
   userProperty: 'payload'
 });
 
+/*
+ *Add functions to read a JSON file where the options config is saved
+ */
+function readJsonFileSync(filepath, encoding) {
+  if (typeof(encoding) == 'undefined') {
+    encoding = 'utf8';
+  }
+  var file = fs.readFileSync(filepath, encoding);
+  return JSON.parse(file);
+}
+
+function getFile(file) {
+  // var filepath = __dirname + '/' + file;
+  var filepath = './' + file;
+  return readJsonFileSync(filepath);
+}
 
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index');
 });
 
-router.get('/posts', function(req, res, next) {
-  Post.find(function(err, posts) {
-    if (err) {
-      return next(err);
-    }
 
-    res.json(posts);
-  });
-});
-
-router.post('/posts', auth, function(req, res, next) {
-  var post = new Post(req.body);
-  post.author = req.payload.username;
-
-  post.save(function(err, post) {
-    if (err) {
-      return next(err);
-    }
-
-    res.json(post);
-  });
-});
-
-router.param('post', function(req, res, next, id) {
-  var query = Post.findById(id);
-
-  query.exec(function(err, post) {
-    if (err) {
-      return next(err);
-    }
-    if (!post) {
-      return next(new Error("can't find post"));
-    }
-
-    req.post = post;
-    return next();
-  });
+/* Players API*/
+router.get('/options', function(req, res, next) {
+  var options = getFile('config/options.json');
+  res.json(options);
 });
 
 /* Players API*/
@@ -102,89 +84,6 @@ router.put('/players/:id/incrementwins', auth, function(req, res, next) {
       return next(err);
     }
     res.json(player);
-  });
-});
-
-router.param('comment', function(req, res, next, id) {
-  var query = Comment.findById(id);
-
-  query.exec(function(err, comment) {
-    if (err) {
-      return next(err);
-    }
-    if (!comment) {
-      return next(new Error("can't find comment"));
-    }
-
-    req.comment = comment;
-    return next();
-  });
-});
-
-router.get('/posts/:post', function(req, res, next) {
-  req.post.populate('comments', function(err, post) {
-    res.json(post);
-  });
-});
-
-router.put('/posts/:post/upvote', auth, function(req, res, next) {
-  req.post.upvote(function(err, post) {
-    if (err) {
-      return next(err);
-    }
-
-    res.json(post);
-  });
-});
-
-router.put('/posts/:post/downvote', auth, function(req, res, next) {
-  req.post.downvote(function(err, post) {
-    if (err) {
-      return next(err);
-    }
-
-    res.json(post);
-  });
-});
-
-router.post('/posts/:post/comments', auth, function(req, res, next) {
-  var comment = new Comment(req.body);
-  comment.post = req.post;
-  comment.author = req.payload.username;
-
-  comment.save(function(err, comment) {
-    if (err) {
-      return next(err);
-    }
-
-    req.post.comments.push(comment);
-    req.post.save(function(err, post) {
-      if (err) {
-        return next(err);
-      }
-
-      res.json(comment);
-    });
-  });
-});
-
-router.put('/posts/:post/comments/:comment/upvote', auth, function(req, res, next) {
-  req.comment.upvote(function(err, comment) {
-    if (err) {
-      return next(err);
-    }
-
-    res.json(comment);
-  });
-});
-
-router.put('/posts/:post/comments/:comment/downvote', auth, function(req, res, next) {
-  req.comment.downvote(function(err, comment) {
-    if (err) {
-      return next(err);
-    }
-
-    res.json(comment);
   });
 });
 

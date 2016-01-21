@@ -7,4 +7,7 @@
 }, {
   "name": "Scissors",
   "kills": "Paper"
+}, {
+  "name": "Bazooka",
+  "kills": "Rock"
 }]
