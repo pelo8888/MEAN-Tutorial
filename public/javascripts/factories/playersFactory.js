@@ -4,16 +4,16 @@ app.factory('players', ['$http', 'auth',
       players: []
     };
 
+    //Get all player from mongodb
     o.getAll = function() {
       return $http.get('/players').success(function(data) {
         angular.copy(data, o.players);
       });
     };
-    //now we'll need to create new posts
-    //uses the router.post in index.js to post a new Post mongoose model to mongodb
+
+    //uses the router.post in index.js to post a new player mongoose model to mongodb
     //when $http gets a success back, it adds this post to the posts object in
     //this local factory, so the mongodb and angular data is the same
-    //sweet!
     o.create = function(player) {
       return $http.post('/players', player, {
         headers: {
@@ -24,6 +24,8 @@ app.factory('players', ['$http', 'auth',
       });
     };
 
+    //Increment the number of wins to a player.
+    //In the success method it increment the number in the factory too
     o.addVictory = function(player) {
       return $http.put('/players/' + player._id + '/incrementwins', null, {
         headers: {
@@ -34,25 +36,13 @@ app.factory('players', ['$http', 'auth',
       });
     };
 
-    //grab a single post from the server
+    //Find a single player from the server
     o.findByUsername = function(username) {
-      //use the express route to grab this post and return the response
+      //use the express route to grab this player and return the response
       //from that route, which is a json of the post data
       //.then is a promise, a kind of newly native thing in JS that upon cursory research
-      //looks friggin sweet; TODO Learn to use them like a boss.  First, this.
+      //looks friggin sweet;
       return $http.get('/players/' + username).then(function(res) {
-        return res.data;
-      });
-    };
-
-
-    //grab a single post from the server
-    o.get = function(id) {
-      //use the express route to grab this post and return the response
-      //from that route, which is a json of the post data
-      //.then is a promise, a kind of newly native thing in JS that upon cursory research
-      //looks friggin sweet; TODO Learn to use them like a boss.  First, this.
-      return $http.get('/players/' + id).then(function(res) {
         return res.data;
       });
     };

@@ -1,6 +1,6 @@
 app.controller('gameCtrl', ['$scope', 'game', 'players', 'auth', '$state',
 
-  function ($scope, game, players, auth, $state) {
+  function($scope, game, players, auth, $state) {
     $scope.isLoggedIn = auth.isLoggedIn;
     $scope.Game = game;
     $scope.players = players;
@@ -9,21 +9,11 @@ app.controller('gameCtrl', ['$scope', 'game', 'players', 'auth', '$state',
       player2: undefined,
       winner: undefined
     };
-    $scope.options = [{
-      name: 'Paper',
-      kills: 'Rock'
-    }, {
-      name: 'Rock',
-      kills: 'Scissors'
-    }, {
-      name: 'Scissors',
-      kills: 'Paper'
-    }];
 
     //Get from the localstorage the info of the current game
     $scope.Game.getStorage();
 
-    $scope.Attack = function () {
+    $scope.Attack = function() {
       if ($scope.selected) {
         if ($scope.lastMove.player1 === undefined) {
           $scope.lastMove.player1 = $scope.selected;
@@ -42,7 +32,7 @@ app.controller('gameCtrl', ['$scope', 'game', 'players', 'auth', '$state',
      * Check all possible conditions and finish each movement
      * updating the localstorage everytime a round is finished.
      */
-    $scope.finishMove = function () {
+    $scope.finishMove = function() {
       var move1 = $scope.lastMove.player1,
         move2 = $scope.lastMove.player2;
 
@@ -64,8 +54,8 @@ app.controller('gameCtrl', ['$scope', 'game', 'players', 'auth', '$state',
      * Check the status of the match and update the interfaz when a player
      * get 3 victories
      */
-    $scope.checkScore = function () {
-      $scope.score = _.countBy($scope.Game.moves, function (move) {
+    $scope.checkScore = function() {
+      $scope.score = _.countBy($scope.Game.moves, function(move) {
         return move.winner ? move.winner.username : 'draw';
       });
 

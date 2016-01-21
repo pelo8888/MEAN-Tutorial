@@ -1,34 +1,41 @@
-app.factory('game', ['$window', '$state',
+app.factory('game', ['$http', '$window', '$state',
 
-  function ($window, $state) {
+  function($http, $window, $state) {
     var o = {
       Player1: undefined,
       Player2: undefined,
       moves: [],
+      options: [],
       winner: undefined
     };
 
+    //Get all options from config/options.json file
+    o.getOptions = function() {
+      return $http.get('/options').success(function(data) {
+        angular.copy(data, o.options);
+      });
+    };
 
-    o.savePlayer1 = function () {
+    o.savePlayer1 = function() {
       $window.localStorage['game-of-drones-player1'] = JSON.stringify(this.Player1);
     };
 
-    o.savePlayer2 = function () {
-      $window.localStorage['game-of-drones-player2'] = JSON.stringify(this.Player1);
+    o.savePlayer2 = function() {
+      $window.localStorage['game-of-drones-player2'] = JSON.stringify(this.Player2);
     };
 
-    o.saveWinner = function () {
+    o.saveWinner = function() {
       $window.localStorage['game-of-drones-winner'] = JSON.stringify(this.winner);
     };
 
-    o.saveStatus = function () {
+    o.saveStatus = function() {
       $window.localStorage['game-of-drones-player1'] = JSON.stringify(this.Player1);
       $window.localStorage['game-of-drones-player2'] = JSON.stringify(this.Player2);
       $window.localStorage['game-of-drones-moves'] = JSON.stringify(this.moves);
       $window.localStorage['game-of-drones-winner'] = JSON.stringify(this.winner);
     };
 
-    o.getStorage = function () {
+    o.getStorage = function() {
       var player1 = $window.localStorage['game-of-drones-player1'] || 'undefined',
         player2 = $window.localStorage['game-of-drones-player2'] || 'undefined',
         moves = $window.localStorage['game-of-drones-moves'] || 'undefined',
@@ -49,16 +56,14 @@ app.factory('game', ['$window', '$state',
       }
     }
 
-    o.removeWinner = function () {
+    o.removeWinner = function() {
       $window.localStorage.removeItem('game-of-drones-winner');
     }
 
-    o.removeGameStorage = function () {
-      console.error(this);
+    o.removeGameStorage = function() {
       $window.localStorage.removeItem('game-of-drones-player1');
       $window.localStorage.removeItem('game-of-drones-player2');
       $window.localStorage.removeItem('game-of-drones-moves');
-      // $window.localStorage.removeItem('game-of-drones-winner');
     }
 
     return o;
