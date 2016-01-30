@@ -1,0 +1,30 @@
+<div class="page-header">
+  <h1>The game of Drones</h1>
+</div>
+
+<div ng-hide="isLoggedIn()">
+  <h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can play The game of drones.</h3>
+</div>
+
+<div class="page-header" ng-show="isLoggedIn()">
+  <h1>We have a WINNER!!</h1>
+  <h2>{{Game.winner.username | uppercase}} is the new EMPEROR!</h2>
+</div>
+
+<div ng-show="isLoggedIn()">
+  <button ng-click="playAgain();" class="btn btn-primary">Play again!</button>
+</div>
+
+<div class="row" ng-show="isLoggedIn()">
+  <div class="col-md-6 highscores-container">
+    <h2>Highscores</h2>
+    <div ng-repeat="score in players | orderBy:'-wins' | limitTo:10"
+    class="highscores-element">
+      <span style="font-size:20px;margin-left:10px">
+        <span>
+          {{$index + 1}}° - {{ score.username || lowercase }} ({{ score.wins }})
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
