@@ -1,16 +1,16 @@
 var app = angular.module('gameOfDrones', ['ui.router']);
 
 app.config(['$stateProvider', '$urlRouterProvider',
-  function($stateProvider, $urlRouterProvider) {
+  function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider
       .state('start', {
         url: '/start',
-        templateUrl: '/start.html',
+        templateUrl: 'templates/start.html',
         controller: 'MainCtrl',
         resolve: {
           post: ['$stateParams', 'players',
-            function($stateParams, players) {
+            function ($stateParams, players) {
               return players.getAll();
             }
           ]
@@ -18,11 +18,11 @@ app.config(['$stateProvider', '$urlRouterProvider',
       })
       .state('playing', {
         url: '/playing',
-        templateUrl: '/playing.html',
+        templateUrl: 'templates/playing.html',
         controller: 'gameCtrl',
         resolve: {
           post: ['$stateParams', 'game',
-            function($stateParams, game) {
+            function ($stateParams, game) {
               return game.getOptions();
             }
           ]
@@ -30,11 +30,11 @@ app.config(['$stateProvider', '$urlRouterProvider',
       })
       .state('winner', {
         url: '/winner',
-        templateUrl: '/winner.html',
+        templateUrl: 'templates/winner.html',
         controller: 'MainCtrl',
         resolve: {
           post: ['$stateParams', 'players',
-            function($stateParams, players) {
+            function ($stateParams, players) {
               return players.getAll();
             }
           ]
@@ -42,10 +42,10 @@ app.config(['$stateProvider', '$urlRouterProvider',
       })
       .state('login', {
         url: '/login',
-        templateUrl: '/login.html',
+        templateUrl: 'templates/login.html',
         controller: 'AuthCtrl',
         onEnter: ['$state', 'auth',
-          function($state, auth) {
+          function ($state, auth) {
             if (auth.isLoggedIn()) {
               $state.go('start');
             }
@@ -55,10 +55,10 @@ app.config(['$stateProvider', '$urlRouterProvider',
       })
       .state('register', {
         url: '/register',
-        templateUrl: '/register.html',
+        templateUrl: 'templates/register.html',
         controller: 'AuthCtrl',
         onEnter: ['$state', 'auth',
-          function($state, auth) {
+          function ($state, auth) {
             if (auth.isLoggedIn()) {
               $state.go('start');
             }
