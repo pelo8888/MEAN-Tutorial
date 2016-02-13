@@ -1,0 +1,29 @@
+{
+  "name": "game-of-drones",
+  "homepage": "https://github.com/pelo8888/MEAN-Tutorial",
+  "authors": [
+    "pelo8888 <pelo8888@gmail.com>"
+  ],
+  "description": "game-of-drones",
+  "main": "views/index.ejs",
+  "moduleType": [
+    "amd",
+    "es6",
+    "globals",
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.0",
+    "angular-ui-router": "^0.2.18",
+    "underscore": "^1.8.3",
+    "bootstrap": "^3.3.6"
+  }
+}
