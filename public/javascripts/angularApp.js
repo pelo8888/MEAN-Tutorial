@@ -9,8 +9,8 @@ app.config(['$stateProvider', '$urlRouterProvider',
         templateUrl: 'templates/start.html',
         controller: 'MainCtrl',
         resolve: {
-          post: ['players',
-            function (players) {
+          post: ['$stateParams', 'players',
+            function ($stateParams, players) {
               return players.getAll();
             }
           ]
@@ -21,8 +21,8 @@ app.config(['$stateProvider', '$urlRouterProvider',
         templateUrl: 'templates/playing.html',
         controller: 'gameCtrl',
         resolve: {
-          post: ['game',
-            function (game) {
+          post: ['$stateParams', 'game',
+            function ($stateParams, game) {
               return game.getOptions();
             }
           ]
@@ -33,8 +33,8 @@ app.config(['$stateProvider', '$urlRouterProvider',
         templateUrl: 'templates/winner.html',
         controller: 'MainCtrl',
         resolve: {
-          post: ['players',
-            function (players) {
+          post: ['$stateParams', 'players',
+            function ($stateParams, players) {
               return players.getAll();
             }
           ]
